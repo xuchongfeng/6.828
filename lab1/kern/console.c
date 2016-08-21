@@ -192,6 +192,7 @@ cga_putc(int c)
 	}
 
 	// What is the purpose of this?
+    // Clear the first line
 	if (crt_pos >= CRT_SIZE) {
 		int i;
 

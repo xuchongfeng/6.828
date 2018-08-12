@@ -65,7 +65,7 @@ struct Trapframe {
 	/* below here defined by x86 hardware */
 	uint32_t tf_err;
 	uintptr_t tf_eip;
-	uint16_t tf_cs;
+	uint16_t tf_cs; // 段寄存器
 	uint16_t tf_padding3;
 	uint32_t tf_eflags;
 	/* below here only when crossing rings, such as from user to kernel */
@@ -74,6 +74,17 @@ struct Trapframe {
 	uint16_t tf_padding4;
 } __attribute__((packed)); // 取消字节对齐
 
+struct UTrapframe {
+	/* information about the fault */
+	uint32_t utf_fault_va;	/* va for T_PGFLT, 0 otherwise */
+	uint32_t utf_err;
+	/* trap-time return state */
+	struct PushRegs utf_regs;
+	uintptr_t utf_eip;
+	uint32_t utf_eflags;
+	/* the trap-time stack to return to */
+	uintptr_t utf_esp;
+} __attribute__((packed));
 
 #endif /* !__ASSEMBLER__ */
 
